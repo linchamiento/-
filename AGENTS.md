@@ -258,15 +258,16 @@ Docker Engine 及 Docker Compose v2；本地构建还需要 Maven、JDK 21、Nod
 - 工具与发现：已执行 `gh auth status`（CLI 未安装）及 `ssh -T git@github.com`（未获 SSH 认证）；使用现有 Git Credential Manager 与 HTTPS。会话无 codebase-memory 图谱工具，按配置及提交清单定向检查。
 - 验证方式：核对远端为空、提交清单无敏感文件，执行 `git diff --cached --check`、前端 build/smoke 和 `docker compose config --quiet`；推送后核对本地 HEAD 与远端 `main`。
 - 已验证结果：172 个暂存文件中无 `.env`、缓存、依赖或构建产物；暂存源码未匹配本地秘密值或 Key/私钥格式；前端 build/smoke 及 `docker compose config --quiet` 通过。
-- 当前限制：系统未保存可用的 GitHub HTTPS 凭据，需要完成设备登录；运行中容器暂不重建。首次提交的 `diff --check` 提示原项目的 48 处 Markdown 行末空格或文件末尾空行；没有为首次推送批量格式化旧文件，已用 `cr-at-eol` 正确识别 Windows 换行。
-- 下一步计划：完成暂存审查及验证，提交并推送 `main`，核对远端提交后追加实际结果。
+- 推送结果：用户完成 Git Credential Manager 设备登录后，已通过 HTTPS 将首次提交 `a09ccda0c8e4193e3f77737d38f22f8d7fd5a6ac` 推送到 `origin/main`，远端 SHA 与本地一致；未强制推送，未覆盖已有远端内容。
+- 当前限制：运行中容器暂不重建。首次提交的 `diff --check` 提示原项目的 48 处 Markdown 行末空格或文件末尾空行；没有为首次推送批量格式化旧文件，已用 `cr-at-eol` 正确识别 Windows 换行。增量记录检查与工作区状态检查通过。
+- 下一步计划：后续在此目录使用 `git add`、`git commit`、`git push` 更新；保持 `.env` 本地独立，克隆后按 README 设置环境变量。
 
 | 步骤 | 预期结果 | 验证方法 | 状态 |
 |---|---|---|---|
 | 仓库与发布边界 | 空仓库首次提交，敏感文件不上传 | HTTPS refs、忽略规则、暂存扫描 | 已完成 |
 | 配置与提交验证 | 无秘密默认值，构建配置有效 | 暂存扫描无秘密、build/smoke/Compose 通过 | 已完成 |
-| 推送与远端核对 | GitHub main 与本地一致 | push、ls-remote | 待评估 |
+| 推送与远端核对 | GitHub main 与本地一致 | push 成功、ls-remote SHA 一致 | 已完成 |
 
 | 任务 | 进度 | 状态 | 已完成内容 | 下一步 |
 |---|---:|---|---|---|
-| GitHub 首次推送 | 85% | 进行中 | 172 文件发布准备、暂存秘密扫描、前端及 Compose 验证通过 | 完成 GitHub 设备登录后推送 main |
+| GitHub 首次推送 | 100% | 已完成 | 172 文件导入、秘密扫描、前端/Compose 验证、main 推送和远端 SHA 核对 | 后续按 Git 提交流程更新 |
