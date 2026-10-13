@@ -77,7 +77,7 @@ body:has(.share-page),
 body:has(.admin-page) {
   background:
     linear-gradient(180deg, rgba(10, 18, 29, .27) 0%, rgba(14, 19, 31, .36) 52%, rgba(7, 12, 19, .62) 100%),
-    url('/backgrounds/dark-dune.webp') center / cover fixed no-repeat !important;
+    url('/backgrounds/twilight-lake.jpg') center / cover fixed no-repeat !important;
   background-color: var(--tw-bg) !important;
 }
 
@@ -104,7 +104,7 @@ body:has(#app) {
 .glass-scene-content {
   background:
     linear-gradient(180deg, rgba(10, 18, 29, .25) 0%, rgba(14, 19, 31, .36) 52%, rgba(7, 12, 19, .58) 100%),
-    url('/backgrounds/dark-dune.webp') center / cover fixed no-repeat !important;
+    url('/backgrounds/twilight-lake.jpg') center / cover fixed no-repeat !important;
   filter: saturate(.92) contrast(1.02);
   opacity: .22;
 }
