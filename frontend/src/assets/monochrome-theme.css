@@ -1,0 +1,102 @@
+/* Shared Japanese minimal monochrome theme. Loaded last so every view and dialog uses the same tokens. */
+:root {
+  --bg: #111214;
+  --panel: #1b1d21;
+  --panel-2: #24272c;
+  --border: #34373d;
+  --border-strong: #545962;
+  --text: #f3f3f1;
+  --muted: #a2a4a8;
+  --text-tertiary: #777b82;
+  --accent: #c8c9c7;
+  --accent-2: #e5e5e1;
+  --danger: #c4c4c1;
+  --ok: #d2d2ce;
+  --el-color-primary: #2b2d31;
+  --el-color-success: #62656a;
+  --el-color-warning: #777a7e;
+  --el-color-danger: #484b50;
+  --el-color-info: #85888d;
+  font-family: "Noto Sans JP", "Microsoft YaHei", "Segoe UI", sans-serif;
+}
+
+/* Neutralize legacy accent hues while keeping image detail and status contrast. */
+.unified-shell,
+.auth-page,
+.el-overlay,
+.el-dialog,
+.el-drawer,
+.el-message,
+.el-notification,
+.el-popover,
+.el-popper {
+  filter: grayscale(1);
+}
+
+.unified-shell img,
+.auth-page img,
+.el-overlay img,
+.el-dialog img,
+.el-drawer img {
+  filter: grayscale(1);
+}
+
+.unified-shell,
+.auth-page { color: var(--text); background: var(--bg); }
+.workbench-topbar,
+.sidebar,
+.mobile-nav,
+.player { background-color: #151619; border-color: var(--border); }
+.creation-panel,
+.task-panel,
+.profile-card,
+.records,
+.source-picker-dialog .el-dialog,
+.voice-clone-dialog .el-dialog { background: var(--panel); border-color: var(--border); }
+
+.primary-action,
+.el-button--primary,
+.source-picker-confirm,
+.voice-step-actions .el-button--primary {
+  background: #f1f1ee !important;
+  border-color: #f1f1ee !important;
+  color: #17181a !important;
+}
+.primary-action:hover,
+.el-button--primary:hover,
+.source-picker-confirm:hover,
+.voice-step-actions .el-button--primary:hover { background: #d5d5d1 !important; border-color: #d5d5d1 !important; }
+
+.balance-card,
+.avatar,
+.vinyl:after { background: #c9cac7; color: #17181a; }
+.el-input,
+.el-textarea,
+.el-select__wrapper,
+.el-input-number .el-input__wrapper { --el-input-bg-color: #151619; --el-fill-color-blank: #151619; }
+.el-button,
+.chips button,
+.source-picker-option,
+.source-picker-card,
+.voice-choice-card { border-color: var(--border) !important; }
+.el-button:hover,
+.chips button:hover,
+.chips button.active,
+.source-picker-option:hover,
+.source-picker-card:hover,
+.voice-choice-card:hover { background: #2a2c30 !important; color: var(--text) !important; border-color: var(--border-strong) !important; }
+
+/* Preserve semantic meaning through neutral contrast and text, never hue. */
+.track-status.success,
+.track-status.failed,
+.voice-available,
+.voice-success-panel strong,
+.records b,
+.records b.plus { color: var(--text) !important; }
+.track-status.success,
+.track-status.failed,
+.voice-available { background: #303237 !important; border-color: #5b5e64 !important; }
+
+@media (prefers-reduced-motion: reduce) {
+  .unified-shell *, .auth-page * { animation-duration: 0.01ms !important; }
+}

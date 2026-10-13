@@ -1,0 +1,4 @@
+package com.shengxu.controller;
+import com.shengxu.dto.*; import com.shengxu.dto.MusicDtos.*; import com.shengxu.service.CreditService; import org.springframework.security.core.Authentication; import org.springframework.web.bind.annotation.*;
+@RestController @RequestMapping("/api/v1/credits") public class CreditController {private final CreditService s;public CreditController(CreditService s){this.s=s;}@GetMapping("/balance") public ApiResponse<CreditView> balance(Authentication a){return ApiResponse.ok(s.balance((Long)a.getPrincipal()));}@GetMapping("/records") public ApiResponse<PageView<CreditRecordView>> records(Authentication a,@RequestParam(defaultValue="1") long page,@RequestParam(defaultValue="20") long pageSize){return ApiResponse.ok(s.records((Long)a.getPrincipal(),page,pageSize));}}
+

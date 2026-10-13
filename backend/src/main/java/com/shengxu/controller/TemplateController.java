@@ -1,0 +1,3 @@
+package com.shengxu.controller;
+import com.shengxu.dto.ApiResponse; import org.springframework.web.bind.annotation.*; import java.util.*;
+@RestController @RequestMapping("/api/v1/templates") public class TemplateController {@GetMapping public ApiResponse<List<Map<String,String>>> list(){return ApiResponse.ok(List.of(t("海岸公路","夏日海边、公路旅行与明亮合成器","Pop","快乐"),t("深夜霓虹","克制的都市夜行节拍","Lo-fi","治愈"),t("破晓之前","鼓点推进的热血摇滚","Rock","热血"),t("月下长安","古琴与笛声交织的东方叙事","古风","治愈"),t("低频宣言","硬朗节拍和清晰说唱段落","HipHop","热血"),t("失重舞池","空间感合成器与有力低音","EDM","快乐")));}private Map<String,String> t(String title,String prompt,String style,String mood){return Map.of("title",title,"prompt",prompt,"style",style,"mood",mood);}}

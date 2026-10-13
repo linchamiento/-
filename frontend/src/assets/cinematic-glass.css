@@ -1,0 +1,1067 @@
+/**
+ * Cinematic Atmospheric Glass UI
+ * 电影氛围感磨砂玻璃 UI
+ *
+ * 设计目标：
+ * - 深蓝、灰紫、暗粉、炭黑组成的暮色氛围
+ * - 轻盈且具有通透感的悬浮操作控件
+ * - 极其克制的深色磨砂玻璃
+ * - 微弱的边框、柔和的阴影和自然模糊
+ */
+
+/* ============================================
+   一、全局配色系统
+   ============================================ */
+:root {
+  /* 深色暮色配色 */
+  --cg-charcoal: #14171C;        /* 深炭黑 - 页面基础底色 */
+  --cg-smoke-blue: #252D38;      /* 烟熏蓝灰 - 玻璃面板 */
+  --cg-dusk-gray: #77717F;       /* 暮色灰紫 - 环境氛围色 */
+  --cg-fog-white: #E7E8EB;       /* 雾白 - 正文文字 */
+  --cg-cool-gray: #9BA2AB;       /* 冷灰 - 次级文字 */
+
+  /* 语义化颜色映射 */
+  --cg-bg-base: var(--cg-charcoal);
+  --cg-bg-elevated: #1A1D22;
+  --cg-text-primary: var(--cg-fog-white);
+  --cg-text-secondary: var(--cg-cool-gray);
+  --cg-text-tertiary: #6B7280;
+  --cg-border-subtle: rgba(255, 255, 255, 0.08);
+  --cg-border-medium: rgba(255, 255, 255, 0.12);
+  --cg-accent-muted: #9CB3A3;
+
+  /* 玻璃材质参数 */
+  --cg-glass-bg: rgba(24, 28, 35, 0.58);
+  --cg-glass-border: 1px solid rgba(255, 255, 255, 0.08);
+  --cg-glass-blur: blur(20px);
+  --cg-glass-shadow: 0 12px 36px rgba(0, 0, 0, 0.12);
+
+  /* 悬浮控件参数 */
+  --cg-control-bg: rgba(37, 45, 56, 0.65);
+  --cg-control-hover: rgba(255, 255, 255, 0.08);
+  --cg-control-active: rgba(255, 255, 255, 0.12);
+  --cg-control-radius: 22px;
+
+  /* 间距与圆角系统 */
+  --cg-radius-sm: 12px;
+  --cg-radius-md: 18px;
+  --cg-radius-lg: 22px;
+  --cg-radius-xl: 28px;
+  --cg-spacing-unit: 8px;
+}
+
+/* ============================================
+   二、全屏背景系统
+   ============================================ */
+body:has(.cinematic-glass-mode) {
+  background:
+    linear-gradient(180deg,
+      rgba(20, 23, 28, 0.95) 0%,
+      rgba(37, 41, 56, 0.85) 50%,
+      rgba(20, 23, 28, 0.95) 100%
+    ),
+    url('/backgrounds/dark-dune.webp') center/cover no-repeat fixed;
+  background-color: var(--cg-bg-base);
+  color: var(--cg-text-primary);
+}
+
+.cinematic-glass-mode {
+  --el-text-color-primary: var(--cg-text-primary);
+  --el-text-color-regular: var(--cg-text-secondary);
+  --el-text-color-secondary: var(--cg-text-tertiary);
+  --el-fill-color-blank: rgba(24, 28, 35, 0.6);
+  --el-bg-color: rgba(24, 28, 35, 0.8);
+  --el-border-color: var(--cg-border-subtle);
+  --el-color-primary: var(--cg-accent-muted);
+}
+
+/* ============================================
+   三、玻璃面板材质
+   ============================================ */
+.cg-glass-panel {
+  background: var(--cg-glass-bg);
+  backdrop-filter: var(--cg-glass-blur);
+  -webkit-backdrop-filter: var(--cg-glass-blur);
+  border: var(--cg-glass-border);
+  border-radius: var(--cg-radius-lg);
+  box-shadow: var(--cg-glass-shadow);
+}
+
+.cg-glass-panel-light {
+  background: rgba(37, 45, 56, 0.45);
+  backdrop-filter: blur(18px);
+  -webkit-backdrop-filter: blur(18px);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: var(--cg-radius-md);
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.08);
+}
+
+/* ============================================
+   四、顶部导航栏
+   ============================================ */
+.cinematic-glass-mode .workbench-topbar {
+  height: 56px !important;
+  padding: 0 24px !important;
+  background: rgba(20, 23, 28, 0.75) !important;
+  backdrop-filter: blur(16px) !important;
+  -webkit-backdrop-filter: blur(16px) !important;
+  border: 0 !important;
+  border-bottom: 1px solid var(--cg-border-subtle) !important;
+  border-radius: 0 !important;
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.08) !important;
+}
+
+.cinematic-glass-mode .workbench-brand {
+  font-size: 17px;
+  font-weight: 600;
+  letter-spacing: -0.3px;
+  color: var(--cg-text-primary) !important;
+}
+
+.cinematic-glass-mode .workbench-brand .brand-mark {
+  width: 32px;
+  height: 32px;
+  background: rgba(60, 60, 60, 0.5) !important;
+  border-radius: 8px;
+}
+
+.cinematic-glass-mode .workbench-brand .brand-mark i {
+  background: var(--cg-fog-white) !important;
+}
+
+.cinematic-glass-mode .workbench-nav a {
+  height: 36px;
+  padding: 0 16px;
+  font-size: 14px;
+  font-weight: 500;
+  color: var(--cg-text-secondary);
+  border-radius: 18px;
+  transition: all 0.2s ease;
+}
+
+.cinematic-glass-mode .workbench-nav a:hover {
+  color: var(--cg-text-primary);
+  background: var(--cg-control-hover);
+}
+
+.cinematic-glass-mode .workbench-nav a.active {
+  color: var(--cg-text-primary);
+  background: var(--cg-control-bg);
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.12);
+}
+
+.cinematic-glass-mode .balance-pill,
+.cinematic-glass-mode .user-pill {
+  height: 36px;
+  padding: 0 14px;
+  background: var(--cg-control-bg);
+  border: 1px solid var(--cg-border-subtle);
+  border-radius: 18px;
+  font-size: 13px;
+  color: var(--cg-text-primary);
+  transition: all 0.2s ease;
+}
+
+.cinematic-glass-mode .balance-pill:hover,
+.cinematic-glass-mode .user-pill:hover {
+  background: rgba(37, 45, 56, 0.8);
+  border-color: var(--cg-border-medium);
+}
+
+.cinematic-glass-mode .header-icon {
+  width: 36px;
+  height: 36px;
+  padding: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: transparent;
+  border: 0;
+  border-radius: 18px;
+  color: var(--cg-text-secondary);
+  transition: all 0.2s ease;
+  cursor: pointer;
+}
+
+.cinematic-glass-mode .header-icon:hover {
+  background: var(--cg-control-hover);
+  color: var(--cg-text-primary);
+}
+
+/* ============================================
+   五、创作工作台布局
+   ============================================ */
+.cinematic-glass-mode.studio-page {
+  width: 100% !important;
+  min-height: calc(100vh - 56px - 80px);
+  padding: 20px 24px 100px !important;
+  gap: 16px !important;
+  display: grid;
+  grid-template-columns: minmax(420px, 1.2fr) minmax(360px, 1fr);
+  grid-template-rows: auto minmax(0, 1fr);
+  background: transparent !important;
+}
+
+.cinematic-glass-mode .studio-intro {
+  grid-column: 1 / -1;
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-end;
+  gap: 16px;
+  margin-bottom: 8px;
+}
+
+.cinematic-glass-mode .studio-intro h1 {
+  margin: 0 0 6px;
+  font-size: 26px;
+  line-height: 1.3;
+  font-weight: 600;
+  letter-spacing: -0.5px;
+  color: var(--cg-text-primary);
+}
+
+.cinematic-glass-mode .studio-intro p {
+  margin: 0;
+  font-size: 13px;
+  color: var(--cg-text-secondary);
+}
+
+.cinematic-glass-mode .studio-intro-note {
+  font-size: 12px;
+  color: var(--cg-text-tertiary);
+  padding: 6px 12px;
+  background: rgba(37, 45, 56, 0.4);
+  border: 1px solid var(--cg-border-subtle);
+  border-radius: 12px;
+}
+
+/* ============================================
+   六、左侧创作面板
+   ============================================ */
+.cinematic-glass-mode .composer-column {
+  min-width: 0;
+  min-height: 0;
+  padding: 20px !important;
+  background: rgba(24, 28, 35, 0.58) !important;
+  backdrop-filter: blur(20px) !important;
+  -webkit-backdrop-filter: blur(20px) !important;
+  border: 1px solid rgba(255, 255, 255, 0.08) !important;
+  border-radius: var(--cg-radius-lg) !important;
+  box-shadow: 0 12px 36px rgba(0, 0, 0, 0.12) !important;
+  overflow-y: auto;
+  scrollbar-width: thin;
+  scrollbar-color: rgba(155, 162, 171, 0.3) transparent;
+}
+
+.cinematic-glass-mode .composer-toolbar {
+  display: flex;
+  gap: 10px;
+  margin-bottom: 16px;
+}
+
+/* 模式切换按钮 */
+.cinematic-glass-mode .mode-toggle button {
+  height: 36px;
+  padding: 0 18px;
+  background: transparent;
+  border: 1px solid var(--cg-border-subtle);
+  border-radius: 18px;
+  font-size: 13px;
+  font-weight: 500;
+  color: var(--cg-text-secondary);
+  transition: all 0.2s ease;
+  cursor: pointer;
+}
+
+.cinematic-glass-mode .mode-toggle button:hover {
+  background: var(--cg-control-hover);
+  border-color: var(--cg-border-medium);
+  color: var(--cg-text-primary);
+}
+
+.cinematic-glass-mode .mode-toggle button.active {
+  background: var(--cg-control-bg);
+  border-color: var(--cg-border-medium);
+  color: var(--cg-text-primary);
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+}
+
+/* 模型选择器 */
+.cinematic-glass-mode .model-select {
+  flex: 1;
+}
+
+.cinematic-glass-mode .model-select .el-input__wrapper {
+  height: 36px !important;
+  background: var(--cg-control-bg) !important;
+  border: 1px solid var(--cg-border-subtle) !important;
+  border-radius: 18px !important;
+  box-shadow: none !important;
+}
+
+/* 快捷操作按钮 */
+.cinematic-glass-mode .composer-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-bottom: 20px;
+}
+
+.cinematic-glass-mode .composer-actions button {
+  flex: 1;
+  min-width: 0;
+  height: 38px;
+  padding: 0 14px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  background: var(--cg-control-bg);
+  border: 1px solid var(--cg-border-subtle);
+  border-radius: 19px;
+  font-size: 13px;
+  font-weight: 500;
+  color: var(--cg-text-primary);
+  transition: all 0.2s ease;
+  cursor: pointer;
+}
+
+.cinematic-glass-mode .composer-actions button:hover:not(:disabled) {
+  background: rgba(37, 45, 56, 0.8);
+  border-color: var(--cg-border-medium);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+}
+
+.cinematic-glass-mode .composer-actions button:disabled {
+  opacity: 0.4;
+  cursor: not-allowed;
+}
+
+/* ============================================
+   七、输入框与文本域
+   ============================================ */
+.cinematic-glass-mode .el-input__wrapper,
+.cinematic-glass-mode .el-textarea__inner {
+  background: rgba(37, 45, 56, 0.5) !important;
+  border: 1px solid var(--cg-border-subtle) !important;
+  border-radius: var(--cg-radius-sm) !important;
+  color: var(--cg-text-primary) !important;
+  box-shadow: none !important;
+  transition: all 0.2s ease;
+}
+
+.cinematic-glass-mode .el-input__wrapper:hover,
+.cinematic-glass-mode .el-textarea__inner:hover {
+  border-color: var(--cg-border-medium) !important;
+  background: rgba(37, 45, 56, 0.65) !important;
+}
+
+.cinematic-glass-mode .el-input__wrapper.is-focus,
+.cinematic-glass-mode .el-textarea__inner:focus {
+  border-color: rgba(156, 179, 163, 0.4) !important;
+  background: rgba(37, 45, 56, 0.7) !important;
+  box-shadow: 0 0 0 3px rgba(156, 179, 163, 0.08) !important;
+}
+
+.cinematic-glass-mode .el-input__inner,
+.cinematic-glass-mode .el-textarea__inner {
+  color: var(--cg-text-primary) !important;
+}
+
+.cinematic-glass-mode .el-input__inner::placeholder,
+.cinematic-glass-mode .el-textarea__inner::placeholder {
+  color: var(--cg-text-tertiary) !important;
+}
+
+/* ============================================
+   八、生成按钮
+   ============================================ */
+.cinematic-glass-mode .generate-button {
+  height: 48px !important;
+  padding: 0 28px !important;
+  background: linear-gradient(135deg,
+    rgba(156, 179, 163, 0.15) 0%,
+    rgba(156, 179, 163, 0.08) 100%) !important;
+  border: 1px solid rgba(156, 179, 163, 0.25) !important;
+  border-radius: 24px !important;
+  font-size: 15px !important;
+  font-weight: 600 !important;
+  color: var(--cg-text-primary) !important;
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.12) !important;
+  transition: all 0.25s ease !important;
+}
+
+.cinematic-glass-mode .generate-button:hover:not(:disabled) {
+  background: linear-gradient(135deg,
+    rgba(156, 179, 163, 0.25) 0%,
+    rgba(156, 179, 163, 0.15) 100%) !important;
+  border-color: rgba(156, 179, 163, 0.4) !important;
+  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.16) !important;
+  transform: translateY(-1px);
+}
+
+.cinematic-glass-mode .generate-button:active:not(:disabled) {
+  transform: translateY(0);
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.12) !important;
+}
+
+.cinematic-glass-mode .generate-button:disabled {
+  opacity: 0.4;
+  cursor: not-allowed;
+  transform: none !important;
+}
+
+.cinematic-glass-mode .generate-button small {
+  opacity: 0.7;
+  font-size: 12px;
+  font-weight: 500;
+}
+
+/* 清空按钮 */
+.cinematic-glass-mode .clear-button {
+  width: 48px;
+  height: 48px;
+  padding: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: rgba(37, 45, 56, 0.5);
+  border: 1px solid var(--cg-border-subtle);
+  border-radius: 24px;
+  color: var(--cg-text-secondary);
+  transition: all 0.2s ease;
+  cursor: pointer;
+}
+
+.cinematic-glass-mode .clear-button:hover {
+  background: rgba(37, 45, 56, 0.7);
+  border-color: var(--cg-border-medium);
+  color: var(--cg-text-primary);
+}
+
+/* ============================================
+   九、右侧作品列表
+   ============================================ */
+.cinematic-glass-mode .library-panel {
+  min-width: 0;
+  min-height: 0;
+  padding: 20px !important;
+  background: rgba(24, 28, 35, 0.58) !important;
+  backdrop-filter: blur(20px) !important;
+  -webkit-backdrop-filter: blur(20px) !important;
+  border: 1px solid rgba(255, 255, 255, 0.08) !important;
+  border-radius: var(--cg-radius-lg) !important;
+  box-shadow: 0 12px 36px rgba(0, 0, 0, 0.12) !important;
+  display: flex;
+  flex-direction: column;
+}
+
+.cinematic-glass-mode .library-header {
+  flex-shrink: 0;
+  margin-bottom: 16px;
+}
+
+.cinematic-glass-mode .library-search {
+  width: 100%;
+  height: 38px !important;
+  margin-bottom: 12px;
+  background: rgba(37, 45, 56, 0.5) !important;
+  border: 1px solid var(--cg-border-subtle) !important;
+  border-radius: 19px !important;
+}
+
+.cinematic-glass-mode .library-search .el-input__wrapper {
+  background: transparent !important;
+  border: 0 !important;
+}
+
+.cinematic-glass-mode .library-tabs {
+  display: flex;
+  gap: 6px;
+  flex-wrap: wrap;
+}
+
+.cinematic-glass-mode .library-tabs button {
+  height: 32px;
+  padding: 0 14px;
+  background: transparent;
+  border: 1px solid var(--cg-border-subtle);
+  border-radius: 16px;
+  font-size: 12px;
+  font-weight: 500;
+  color: var(--cg-text-secondary);
+  transition: all 0.2s ease;
+  cursor: pointer;
+}
+
+.cinematic-glass-mode .library-tabs button:hover {
+  background: var(--cg-control-hover);
+  color: var(--cg-text-primary);
+}
+
+.cinematic-glass-mode .library-tabs button.active {
+  background: var(--cg-control-bg);
+  border-color: var(--cg-border-medium);
+  color: var(--cg-text-primary);
+}
+
+/* 作品卡片列表 */
+.cinematic-glass-mode .clip-list {
+  flex: 1;
+  min-height: 0;
+  overflow-y: auto;
+  overflow-x: hidden;
+  scrollbar-width: thin;
+  scrollbar-color: rgba(155, 162, 171, 0.3) transparent;
+  -webkit-overflow-scrolling: touch;
+}
+
+.cinematic-glass-mode .clip-card {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  min-height: 76px;
+  padding: 10px;
+  margin-bottom: 8px;
+  background: transparent;
+  border: 0;
+  border-bottom: 1px solid var(--cg-border-subtle);
+  border-radius: 12px;
+  transition: all 0.2s ease;
+}
+
+.cinematic-glass-mode .clip-card:hover,
+.cinematic-glass-mode .clip-card.selected {
+  background: rgba(255, 255, 255, 0.06);
+}
+
+.cinematic-glass-mode .clip-main {
+  flex: 1;
+  display: flex;
+  gap: 12px;
+  align-items: center;
+  min-width: 0;
+  cursor: pointer;
+}
+
+.cinematic-glass-mode .clip-cover {
+  width: 56px;
+  height: 56px;
+  flex-shrink: 0;
+  border-radius: 10px;
+  overflow: hidden;
+  background: rgba(37, 45, 56, 0.6);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 20px;
+  color: var(--cg-text-tertiary);
+}
+
+.cinematic-glass-mode .clip-cover img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  filter: none !important;
+}
+
+.cinematic-glass-mode .clip-copy {
+  flex: 1;
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.cinematic-glass-mode .clip-title {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.cinematic-glass-mode .clip-title strong {
+  flex: 1;
+  min-width: 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  font-size: 14px;
+  font-weight: 600;
+  color: var(--cg-text-primary);
+}
+
+.cinematic-glass-mode .clip-title span {
+  flex-shrink: 0;
+  padding: 2px 8px;
+  background: rgba(156, 179, 163, 0.15);
+  border-radius: 8px;
+  font-size: 11px;
+  font-weight: 600;
+  color: var(--cg-accent-muted);
+}
+
+.cinematic-glass-mode .clip-copy p,
+.cinematic-glass-mode .clip-copy small {
+  margin: 0;
+  font-size: 12px;
+  color: var(--cg-text-secondary);
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.cinematic-glass-mode .clip-more {
+  flex-shrink: 0;
+  width: 32px;
+  height: 32px;
+  padding: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: transparent;
+  border: 0;
+  border-radius: 16px;
+  color: var(--cg-text-secondary);
+  transition: all 0.2s ease;
+  cursor: pointer;
+}
+
+.cinematic-glass-mode .clip-more:hover {
+  background: var(--cg-control-hover);
+  color: var(--cg-text-primary);
+}
+
+/* 空状态 */
+.cinematic-glass-mode .library-empty {
+  min-height: 200px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  padding: 24px;
+  text-align: center;
+  background: transparent;
+  border: 1px dashed var(--cg-border-subtle);
+  border-radius: 14px;
+}
+
+.cinematic-glass-mode .library-empty svg {
+  width: 28px;
+  height: 28px;
+  color: var(--cg-text-tertiary);
+}
+
+.cinematic-glass-mode .library-empty strong {
+  font-size: 15px;
+  font-weight: 600;
+  color: var(--cg-text-primary);
+}
+
+.cinematic-glass-mode .library-empty p {
+  margin: 0;
+  font-size: 13px;
+  color: var(--cg-text-secondary);
+}
+
+/* ============================================
+   十、底部播放器（悬浮 Dock 风格）
+   ============================================ */
+.cinematic-glass-mode .player {
+  position: fixed;
+  bottom: 16px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: calc(100% - 48px);
+  max-width: 1200px;
+  height: 72px !important;
+  padding: 0 20px !important;
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  background: rgba(24, 28, 35, 0.85) !important;
+  backdrop-filter: blur(24px) !important;
+  -webkit-backdrop-filter: blur(24px) !important;
+  border: 1px solid rgba(255, 255, 255, 0.1) !important;
+  border-radius: 36px !important;
+  box-shadow: 0 16px 48px rgba(0, 0, 0, 0.24) !important;
+  z-index: 1000;
+}
+
+.cinematic-glass-mode .player-track {
+  flex: 0 0 240px;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  min-width: 0;
+}
+
+.cinematic-glass-mode .player-track.player-track-clickable {
+  cursor: pointer;
+  border-radius: 18px;
+  padding: 6px 8px;
+  margin: -6px -8px;
+  transition: background 0.2s ease;
+}
+
+.cinematic-glass-mode .player-track.player-track-clickable:hover {
+  background: rgba(255, 255, 255, 0.05);
+}
+
+.cinematic-glass-mode .mini-cover {
+  width: 48px;
+  height: 48px;
+  flex-shrink: 0;
+  border-radius: 10px;
+  overflow: hidden;
+  background: rgba(37, 45, 56, 0.8);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 18px;
+  color: var(--cg-text-tertiary);
+}
+
+.cinematic-glass-mode .mini-cover img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  filter: none !important;
+}
+
+.cinematic-glass-mode .player-track-copy {
+  flex: 1;
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.cinematic-glass-mode .player-track-copy strong {
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--cg-text-primary);
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.cinematic-glass-mode .player-track-copy small {
+  font-size: 11px;
+  color: var(--cg-text-secondary);
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+/* 播放控制区域 */
+.cinematic-glass-mode .qq-center {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  min-width: 0;
+}
+
+.cinematic-glass-mode .qq-controls {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+}
+
+.cinematic-glass-mode .player-button {
+  width: 36px;
+  height: 36px;
+  padding: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: transparent;
+  border: 0;
+  border-radius: 18px;
+  color: var(--cg-text-secondary);
+  transition: all 0.2s ease;
+  cursor: pointer;
+  position: relative;
+}
+
+.cinematic-glass-mode .player-button:hover:not(:disabled) {
+  background: rgba(255, 255, 255, 0.08);
+  color: var(--cg-text-primary);
+}
+
+.cinematic-glass-mode .player-button.active {
+  color: var(--cg-accent-muted);
+}
+
+.cinematic-glass-mode .player-button:disabled {
+  opacity: 0.3;
+  cursor: not-allowed;
+}
+
+.cinematic-glass-mode .player-button.play {
+  width: 44px;
+  height: 44px;
+  background: rgba(156, 179, 163, 0.2);
+  border: 1px solid rgba(156, 179, 163, 0.3);
+}
+
+.cinematic-glass-mode .player-button.play:hover:not(:disabled) {
+  background: rgba(156, 179, 163, 0.3);
+  border-color: rgba(156, 179, 163, 0.4);
+  color: var(--cg-text-primary);
+}
+
+/* 进度条 */
+.cinematic-glass-mode .timeline {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.cinematic-glass-mode .timeline span {
+  font-size: 11px;
+  font-weight: 500;
+  color: var(--cg-text-secondary);
+  min-width: 38px;
+  text-align: center;
+}
+
+/* 右侧操作区域 */
+.cinematic-glass-mode .qq-actions {
+  flex: 0 0 200px;
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  gap: 4px;
+}
+
+.cinematic-glass-mode .volume-slider {
+  width: 80px;
+}
+
+/* ============================================
+   十一、滑块组件
+   ============================================ */
+.cinematic-glass-mode .el-slider__runway {
+  height: 4px;
+  background: rgba(255, 255, 255, 0.1);
+  border-radius: 2px;
+}
+
+.cinematic-glass-mode .el-slider__bar {
+  height: 4px;
+  background: linear-gradient(90deg,
+    var(--cg-accent-muted) 0%,
+    rgba(156, 179, 163, 0.6) 100%);
+  border-radius: 2px;
+}
+
+.cinematic-glass-mode .el-slider__button {
+  width: 12px;
+  height: 12px;
+  background: var(--cg-fog-white);
+  border: 2px solid rgba(156, 179, 163, 0.4);
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.2);
+}
+
+.cinematic-glass-mode .el-slider__button:hover {
+  transform: scale(1.2);
+}
+
+/* ============================================
+   十二、弹窗与浮层
+   ============================================ */
+.cinematic-glass-mode .el-dialog,
+body:has(.cinematic-glass-mode) .el-dialog {
+  background: rgba(24, 28, 35, 0.95) !important;
+  backdrop-filter: blur(24px) !important;
+  -webkit-backdrop-filter: blur(24px) !important;
+  border: 1px solid rgba(255, 255, 255, 0.1) !important;
+  border-radius: var(--cg-radius-xl) !important;
+  box-shadow: 0 24px 64px rgba(0, 0, 0, 0.32) !important;
+}
+
+.cinematic-glass-mode .el-dialog__header,
+body:has(.cinematic-glass-mode) .el-dialog__header {
+  padding: 20px 24px;
+  border-bottom: 1px solid var(--cg-border-subtle);
+}
+
+.cinematic-glass-mode .el-dialog__title,
+body:has(.cinematic-glass-mode) .el-dialog__title {
+  font-size: 18px;
+  font-weight: 600;
+  color: var(--cg-text-primary);
+}
+
+.cinematic-glass-mode .el-dialog__body,
+body:has(.cinematic-glass-mode) .el-dialog__body {
+  padding: 24px;
+  color: var(--cg-text-primary);
+}
+
+.cinematic-glass-mode .el-dialog__close,
+body:has(.cinematic-glass-mode) .el-dialog__close {
+  color: var(--cg-text-secondary);
+}
+
+.cinematic-glass-mode .el-dialog__close:hover,
+body:has(.cinematic-glass-mode) .el-dialog__close:hover {
+  color: var(--cg-text-primary);
+}
+
+/* ============================================
+   十三、响应式布局
+   ============================================ */
+@media (max-width: 1024px) {
+  .cinematic-glass-mode.studio-page {
+    grid-template-columns: 1fr;
+    padding: 16px 16px 100px !important;
+  }
+
+  .cinematic-glass-mode .library-panel {
+    display: none;
+  }
+
+  .cinematic-glass-mode .studio-page.mobile-library .composer-column {
+    display: none;
+  }
+
+  .cinematic-glass-mode .studio-page.mobile-library .library-panel {
+    display: flex;
+  }
+}
+
+@media (max-width: 768px) {
+  .cinematic-glass-mode .workbench-topbar {
+    padding: 0 16px !important;
+  }
+
+  .cinematic-glass-mode .player {
+    width: calc(100% - 24px);
+    bottom: 12px;
+    padding: 0 16px !important;
+  }
+
+  .cinematic-glass-mode .player-track {
+    flex: 0 0 180px;
+  }
+
+  .cinematic-glass-mode .qq-actions {
+    flex: 0 0 auto;
+  }
+
+  .cinematic-glass-mode .volume-slider {
+    display: none;
+  }
+}
+
+/* ============================================
+   十四、无 backdrop-filter 降级
+   ============================================ */
+@supports not (backdrop-filter: blur(1px)) {
+  .cinematic-glass-mode .workbench-topbar,
+  .cinematic-glass-mode .composer-column,
+  .cinematic-glass-mode .library-panel,
+  .cinematic-glass-mode .player {
+    background: rgba(20, 23, 28, 0.95) !important;
+  }
+
+  .cinematic-glass-mode .el-dialog,
+  body:has(.cinematic-glass-mode) .el-dialog {
+    background: rgba(20, 23, 28, 0.98) !important;
+  }
+}
+
+/* ============================================
+   十五、加载与骨架屏
+   ============================================ */
+.cinematic-glass-mode .idea-skeleton {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  padding: 16px 0;
+}
+
+.cinematic-glass-mode .idea-skeleton-line {
+  height: 12px;
+  background: linear-gradient(90deg,
+    rgba(255, 255, 255, 0.05) 0%,
+    rgba(255, 255, 255, 0.1) 50%,
+    rgba(255, 255, 255, 0.05) 100%);
+  background-size: 200% 100%;
+  border-radius: 6px;
+  animation: skeleton-loading 1.5s ease-in-out infinite;
+}
+
+.cinematic-glass-mode .idea-skeleton-line-wide { width: 100%; }
+.cinematic-glass-mode .idea-skeleton-line-medium { width: 80%; }
+.cinematic-glass-mode .idea-skeleton-line-short { width: 60%; }
+.cinematic-glass-mode .idea-skeleton-line-tiny { width: 40%; }
+
+@keyframes skeleton-loading {
+  0% { background-position: 200% 0; }
+  100% { background-position: -200% 0; }
+}
+
+/* ============================================
+   十六、辅助样式
+   ============================================ */
+.cinematic-glass-mode .field-card,
+.cinematic-glass-mode .advanced-section {
+  padding: 0 !important;
+  background: transparent !important;
+  border: 0 !important;
+  box-shadow: none !important;
+}
+
+.cinematic-glass-mode .field-card + .field-card {
+  padding-top: 16px !important;
+  margin-top: 16px !important;
+  border-top: 1px solid var(--cg-border-subtle) !important;
+}
+
+.cinematic-glass-mode .field-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 10px;
+}
+
+.cinematic-glass-mode .field-header strong {
+  font-size: 14px;
+  font-weight: 600;
+  color: var(--cg-text-primary);
+}
+
+.cinematic-glass-mode .field-header span {
+  font-size: 12px;
+  color: var(--cg-text-secondary);
+}
+
+/* ============================================
+   十七、可访问性与焦点样式
+   ============================================ */
+.cinematic-glass-mode *:focus-visible {
+  outline: 2px solid rgba(156, 179, 163, 0.5);
+  outline-offset: 2px;
+}
+
+.cinematic-glass-mode button:focus-visible,
+.cinematic-glass-mode a:focus-visible {
+  outline: 2px solid rgba(156, 179, 163, 0.5);
+  outline-offset: 2px;
+}
+
+/* 减少动态效果 */
+@media (prefers-reduced-motion: reduce) {
+  .cinematic-glass-mode *,
+  .cinematic-glass-mode *::before,
+  .cinematic-glass-mode *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+}

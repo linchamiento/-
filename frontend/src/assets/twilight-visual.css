@@ -1,0 +1,721 @@
+/* 声序 Twilight Glass Studio：暮色声场最终视觉层。
+ * 只负责颜色、材质、层次和交互状态；页面几何与业务组件由既有样式保留。
+ */
+:root {
+  --tw-bg: #11161d;
+  --tw-night: #17283b;
+  --tw-dusk: #45475a;
+  --tw-horizon: #8e7383;
+  --tw-dune: #11161d;
+  --tw-text: #edf0f4;
+  --tw-text-secondary: #c1cad4;
+  --tw-text-muted: #a8b3c0;
+  --tw-border: rgba(255, 255, 255, .12);
+  --tw-border-strong: rgba(255, 255, 255, .22);
+  --tw-glass-light: rgba(31, 42, 57, .42);
+  --tw-glass-main: rgba(19, 28, 40, .56);
+  --tw-glass-reading: rgba(12, 19, 28, .78);
+  --tw-glass-dark: rgba(8, 14, 22, .86);
+  --tw-shadow-panel: 0 16px 46px rgba(3, 8, 15, .30), inset 0 1px 0 rgba(255, 255, 255, .08);
+  --tw-shadow-control: 0 5px 18px rgba(4, 9, 16, .22), inset 0 1px 0 rgba(255, 255, 255, .10);
+  --tw-ease: cubic-bezier(.22, 1, .36, 1);
+  --tw-radius-panel: 24px;
+  --tw-radius-input: 14px;
+  --tw-radius-card: 12px;
+
+  --bg: var(--tw-bg);
+  --page-bg: var(--tw-bg);
+  --surface: #1a2533;
+  --panel: #1a2533;
+  --panel-2: #202c3b;
+  --border: var(--tw-border);
+  --border-strong: var(--tw-border-strong);
+  --text: var(--tw-text);
+  --muted: var(--tw-text-secondary);
+  --text-tertiary: var(--tw-text-muted);
+  --accent: #e8ebf0;
+  --accent-2: #c8d3df;
+  --lg-bg: var(--tw-bg);
+  --lg-bg-soft: #1a2533;
+  --lg-surface: #243143;
+  --lg-text: var(--tw-text);
+  --lg-muted: var(--tw-text-secondary);
+  --lg-dim: var(--tw-text-muted);
+  --lg-border: var(--tw-border);
+  --lg-border-bright: var(--tw-border-strong);
+  --lg-accent: #cbd5df;
+  --lg-foreground: var(--tw-text);
+  --el-bg-color: var(--tw-glass-main);
+  --el-bg-color-overlay: var(--tw-glass-reading);
+  --el-fill-color-blank: var(--tw-glass-reading);
+  --el-fill-color-light: rgba(255, 255, 255, .08);
+  --el-fill-color: rgba(255, 255, 255, .10);
+  --el-text-color-primary: var(--tw-text);
+  --el-text-color-regular: var(--tw-text-secondary);
+  --el-text-color-secondary: var(--tw-text-muted);
+  --el-border-color: var(--tw-border);
+  --el-border-color-light: rgba(255, 255, 255, .09);
+  --el-color-primary: #dfe5ec;
+  --el-color-primary-light-3: #c7d1dc;
+  --el-color-primary-dark-2: #f3f5f7;
+  color: var(--tw-text);
+  color-scheme: dark;
+}
+
+html,
+body,
+#app {
+  background: var(--tw-bg) !important;
+  color: var(--tw-text) !important;
+}
+
+#app { background: transparent !important; }
+
+body:has(.unified-shell),
+body:has(.auth-page),
+body:has(.share-page),
+body:has(.admin-page) {
+  background:
+    linear-gradient(180deg, rgba(10, 18, 29, .27) 0%, rgba(14, 19, 31, .36) 52%, rgba(7, 12, 19, .62) 100%),
+    url('/backgrounds/dark-dune.webp') center / cover fixed no-repeat !important;
+  background-color: var(--tw-bg) !important;
+}
+
+/* The app also teleports dialogs to body. This root scopes the final material
+ * rules to the application and wins over the older, more specific themes. */
+body:has(#app) {
+.unified-shell,
+.unified-shell.ui-glass,
+.auth-page,
+.share-page,
+.admin-page {
+  background: transparent !important;
+  color: var(--tw-text) !important;
+}
+
+.content,
+.ui-glass .content,
+.ui-glass .studio-page,
+.ui-glass .admin-page {
+  background: transparent !important;
+}
+
+/* The SDK receives the same fixed environment in every scene, so panel edges remain visually continuous. */
+.glass-scene-content {
+  background:
+    linear-gradient(180deg, rgba(10, 18, 29, .25) 0%, rgba(14, 19, 31, .36) 52%, rgba(7, 12, 19, .58) 100%),
+    url('/backgrounds/dark-dune.webp') center / cover fixed no-repeat !important;
+  filter: saturate(.92) contrast(1.02);
+  opacity: .22;
+}
+
+.unified-shell img,
+.auth-page img,
+.share-page img,
+.admin-page img,
+.el-overlay img,
+.el-dialog img,
+.el-drawer img {
+  filter: none !important;
+}
+
+/* G1: navigation and short controls. */
+.workbench-topbar {
+  background: rgba(13, 21, 32, .54) !important;
+  border-bottom: 1px solid var(--tw-border) !important;
+  box-shadow: 0 8px 28px rgba(3, 8, 15, .14), inset 0 -1px 0 rgba(255, 255, 255, .04) !important;
+  -webkit-backdrop-filter: blur(18px) saturate(115%) !important;
+  backdrop-filter: blur(18px) saturate(115%) !important;
+}
+
+.workbench-brand,
+.workbench-brand b,
+.workbench-nav a,
+.workbench-actions,
+.workbench-actions a,
+.workbench-actions button {
+  color: var(--tw-text) !important;
+}
+
+.workbench-brand .brand-mark {
+  background: rgba(231, 236, 242, .92) !important;
+  box-shadow: 0 4px 14px rgba(4, 9, 16, .22), inset 0 1px 0 rgba(255, 255, 255, .75) !important;
+}
+
+.workbench-brand .brand-mark i { background: #18222e !important; }
+
+.workbench-nav {
+  background: rgba(20, 31, 45, .44) !important;
+  border-color: rgba(255, 255, 255, .10) !important;
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, .06) !important;
+  -webkit-backdrop-filter: blur(14px) !important;
+  backdrop-filter: blur(14px) !important;
+}
+
+.workbench-nav a {
+  background: transparent !important;
+  border-color: transparent !important;
+  transition: color 160ms var(--tw-ease), background 160ms var(--tw-ease), border-color 160ms var(--tw-ease) !important;
+}
+
+.workbench-nav a:hover,
+.workbench-nav a.active {
+  color: #fff !important;
+  background: rgba(232, 237, 243, .16) !important;
+  border-color: rgba(255, 255, 255, .17) !important;
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, .10), 0 3px 12px rgba(5, 10, 18, .14) !important;
+}
+
+.balance-pill,
+.user-pill,
+.header-icon,
+.header-action,
+.earn-button,
+.admin-test-button {
+  background: rgba(30, 43, 59, .56) !important;
+  border-color: var(--tw-border) !important;
+  color: var(--tw-text) !important;
+  box-shadow: var(--tw-shadow-control) !important;
+  -webkit-backdrop-filter: blur(12px) !important;
+  backdrop-filter: blur(12px) !important;
+  transition: background 160ms var(--tw-ease), border-color 160ms var(--tw-ease), color 160ms var(--tw-ease) !important;
+}
+
+.balance-pill:hover,
+.user-pill:hover,
+.header-icon:hover,
+.header-action:hover,
+.earn-button:hover,
+.admin-test-button:hover {
+  background: rgba(63, 77, 96, .70) !important;
+  border-color: var(--tw-border-strong) !important;
+  color: #fff !important;
+}
+
+.header-icon i { background: #d9a69e !important; border-color: #172333 !important; }
+
+/* G2: primary work surfaces. */
+.composer-column,
+.library-panel,
+.profile-card,
+.records,
+.track-card,
+.balance-card,
+.share-card,
+.admin-notice,
+.admin-balance-card,
+.admin-boundary,
+.catalog-card,
+.catalog-empty {
+  background: var(--tw-glass-main) !important;
+  border-color: var(--tw-border) !important;
+  color: var(--tw-text) !important;
+  box-shadow: var(--tw-shadow-panel) !important;
+  -webkit-backdrop-filter: blur(20px) saturate(112%) !important;
+  backdrop-filter: blur(20px) saturate(112%) !important;
+}
+
+.composer-column,
+.library-panel { border-radius: var(--tw-radius-panel) !important; }
+
+.studio-intro h1,
+.page-title h1,
+.page-title h2,
+.profile-identity h2,
+.library-page h1,
+.admin-page h1,
+.admin-page h2,
+.share-card h1,
+.form-wrap h2 {
+  color: var(--tw-text) !important;
+}
+
+.studio-intro p,
+.studio-intro-note,
+.page-title p,
+.profile-identity p,
+.profile-identity small,
+.admin-page p,
+.share-author,
+.muted,
+.form-wrap > p,
+.auth-copy p {
+  color: var(--tw-text-secondary) !important;
+}
+
+.eyebrow,
+.auth-copy > span,
+.form-wrap > small,
+.admin-section-label,
+.catalog-category,
+.catalog-source {
+  color: var(--tw-text-muted) !important;
+}
+
+.field-card,
+.advanced-section,
+.selected-source-card,
+.selected-voice-card,
+.max-mode-card,
+.library-empty,
+.empty-library {
+  background: transparent !important;
+  border-color: var(--tw-border) !important;
+  box-shadow: none !important;
+}
+
+.field-card + .field-card,
+.profile-identity,
+.records article,
+.library-pagination,
+.catalog-fee {
+  border-color: rgba(255, 255, 255, .10) !important;
+}
+
+/* G3: stable reading surfaces. */
+.el-input__wrapper,
+.el-textarea__inner,
+.library-search,
+.catalog-search .el-input__wrapper,
+.lyrics-ai-input,
+.test-request input,
+.test-request textarea,
+.el-input-number .el-input__wrapper {
+  background: var(--tw-glass-reading) !important;
+  border-color: rgba(255, 255, 255, .13) !important;
+  color: var(--tw-text) !important;
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, .04) !important;
+  -webkit-backdrop-filter: blur(10px) !important;
+  backdrop-filter: blur(10px) !important;
+  border-radius: var(--tw-radius-input) !important;
+}
+
+.el-input__wrapper:hover,
+.el-input__wrapper.is-focus,
+.el-textarea__inner:hover,
+.el-textarea__inner:focus,
+.lyrics-ai-input:focus {
+  background: rgba(14, 23, 34, .86) !important;
+  border-color: rgba(224, 232, 240, .34) !important;
+  box-shadow: 0 0 0 3px rgba(215, 225, 235, .09), inset 0 1px 0 rgba(255, 255, 255, .06) !important;
+}
+
+.el-input__inner,
+.el-textarea__inner,
+.el-select__selected-item,
+.el-input-number .el-input__inner,
+.el-form-item__label,
+.el-checkbox__label,
+.el-radio__label {
+  color: var(--tw-text) !important;
+}
+
+.el-input__inner::placeholder,
+.el-textarea__inner::placeholder,
+.lyrics-ai-input::placeholder,
+.library-search input::placeholder,
+.catalog-search input::placeholder {
+  color: rgba(193, 202, 212, .68) !important;
+}
+
+.field-header strong,
+.advanced-section-title strong,
+.clip-title strong,
+.library-empty strong,
+.empty-library h3,
+.profile-form > label,
+.records strong,
+.catalog-card h3,
+.share-card strong {
+  color: var(--tw-text) !important;
+}
+
+.field-header > span,
+.advanced-section-title small,
+.advanced-range-label,
+.advanced-range-row output,
+.clip-copy p,
+.clip-copy small,
+.records small,
+.track-meta small,
+.catalog-description,
+.balance-card p,
+.admin-page .catalog-description {
+  color: var(--tw-text-secondary) !important;
+}
+
+/* Buttons keep their existing geometry; only their material and states change. */
+.composer-actions button,
+.prompt-card-footer button,
+.lyrics-tool-button,
+.mini-tool,
+.clear-button,
+.source-picker-option,
+.source-picker-card,
+.voice-choice-card,
+.category-tabs button,
+.cost-tabs button,
+.library-tabs button,
+.studio-mobile-tabs button,
+.studio-mode-toggle button,
+.dark-button,
+.share-home,
+.api-test-button,
+.profile-form .el-button,
+.el-button {
+  color: var(--tw-text) !important;
+  background: rgba(34, 48, 65, .62) !important;
+  border-color: var(--tw-border) !important;
+  box-shadow: var(--tw-shadow-control) !important;
+  transition: background 160ms var(--tw-ease), border-color 160ms var(--tw-ease), color 160ms var(--tw-ease), transform 160ms var(--tw-ease) !important;
+}
+
+.composer-actions button:hover:not(:disabled),
+.prompt-card-footer button:hover:not(:disabled),
+.lyrics-tool-button:hover:not(:disabled),
+.mini-tool:hover:not(:disabled),
+.clear-button:hover:not(:disabled),
+.source-picker-option:hover,
+.source-picker-card:hover,
+.voice-choice-card:hover,
+.category-tabs button:hover,
+.cost-tabs button:hover,
+.library-tabs button:hover,
+.studio-mobile-tabs button:hover,
+.studio-mode-toggle button:hover,
+.dark-button:hover:not(:disabled),
+.share-home:hover,
+.api-test-button:hover:not(:disabled),
+.el-button:hover:not(:disabled) {
+  color: #fff !important;
+  background: rgba(74, 91, 112, .72) !important;
+  border-color: var(--tw-border-strong) !important;
+}
+
+.studio-mode-toggle button.active,
+.library-tabs button.active,
+.category-tabs button.active,
+.cost-tabs button.active,
+.studio-mobile-tabs button.active {
+  color: #17212d !important;
+  background: #e7ebef !important;
+  border-color: rgba(255, 255, 255, .78) !important;
+  box-shadow: 0 4px 14px rgba(4, 9, 16, .22), inset 0 1px 0 #fff !important;
+}
+
+.studio-mode-toggle,
+.library-tabs,
+.studio-mobile-tabs,
+.ui-glass .model-select .el-select__wrapper {
+  background: var(--tw-glass-light) !important;
+  border-color: var(--tw-border) !important;
+  color: var(--tw-text) !important;
+  box-shadow: var(--tw-shadow-control) !important;
+}
+
+.ui-glass .model-select .el-select__selected-item,
+.ui-glass .model-select .el-select__caret,
+.composer-actions svg { color: var(--tw-text-secondary) !important; }
+
+.generate-button small { color: #344457 !important; }
+.generate-footer { background: linear-gradient(180deg, transparent, rgba(13, 22, 33, .94) 48%) !important; }
+
+/* SDK surfaces retain a thin tint when optics are ready; no extra geometry. */
+.glass-host .lg-surface,
+.glass-host.lg-surface,
+.glass-host .lg-surface[data-lg-optics="ready"],
+.glass-host.lg-surface[data-lg-optics="ready"] {
+  background: rgba(23, 35, 49, .34) !important;
+  color: var(--tw-text) !important;
+  border-color: rgba(255, 255, 255, .13) !important;
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, .07) !important;
+}
+
+.glass-host .lg-surface:is(.generate-button,.el-button--primary) {
+  background: #e7ebef !important;
+  color: #17212d !important;
+  border-color: rgba(255, 255, 255, .8) !important;
+}
+
+.glass-host .lg-tabs-list .lg-tab { color: var(--tw-text-secondary) !important; }
+.glass-host .lg-tabs-list .lg-tab.active { color: #fff !important; background: transparent !important; }
+.glass-host .lg-tab-indicator { background: rgba(235, 241, 247, .18) !important; }
+.glass-host .lg-toolbar .lg-toolbar-button { color: var(--tw-text) !important; }
+.glass-host .lg-toolbar .lg-toolbar-button:is(:hover,:focus-visible,.active) { background: rgba(255, 255, 255, .10) !important; }
+.glass-host .qq-controls.lg-toolbar .lg-toolbar-button.play {
+  color: #18222d !important;
+  background: #e7ebef !important;
+}
+.glass-switch .lg-switch-track { background: rgba(220, 228, 236, .22) !important; }
+.glass-switch[data-checked] .lg-switch-track { background: #94a7bc !important; }
+.glass-switch .lg-control-face { background: #edf0f4 !important; }
+.glass-slider:focus-within,
+.glass-switch:focus-within { outline-color: rgba(224, 232, 240, .72) !important; }
+
+.el-button--primary,
+.generate-button,
+.source-picker-confirm,
+.voice-step-actions .el-button--primary,
+.profile-form .el-button--primary {
+  color: #17212d !important;
+  background: #e7ebef !important;
+  border-color: rgba(255, 255, 255, .80) !important;
+  box-shadow: 0 7px 20px rgba(3, 8, 15, .28), inset 0 1px 0 #fff !important;
+}
+
+.el-button--primary:hover:not(:disabled),
+.generate-button:hover:not(:disabled),
+.source-picker-confirm:hover:not(:disabled),
+.voice-step-actions .el-button--primary:hover:not(:disabled),
+.profile-form .el-button--primary:hover:not(:disabled) {
+  color: #101923 !important;
+  background: #f4f6f8 !important;
+  border-color: #fff !important;
+  transform: translateY(-1px);
+}
+
+.el-button:disabled,
+.composer-actions button:disabled,
+.generate-button:disabled,
+.clear-button:disabled,
+.api-test-button:disabled { opacity: .42 !important; }
+
+.clip-card {
+  background: transparent !important;
+  border-color: rgba(255, 255, 255, .10) !important;
+  box-shadow: none !important;
+  -webkit-backdrop-filter: none !important;
+  backdrop-filter: none !important;
+}
+
+.clip-card:hover,
+.clip-card.selected,
+.track-card:hover {
+  background: rgba(255, 255, 255, .065) !important;
+  border-color: rgba(255, 255, 255, .16) !important;
+}
+
+.clip-cover,
+.cover,
+.track-card .cover,
+.detail-cover,
+.share-cover,
+.mini-cover,
+.queue-play {
+  background: rgba(9, 16, 25, .70) !important;
+  border-color: rgba(255, 255, 255, .12) !important;
+}
+
+.clip-cover img,
+.cover img,
+.track-card .cover img,
+.detail-cover img,
+.share-cover img,
+.mini-cover img,
+.queue-play img { filter: none !important; }
+
+.clip-title span,
+.track-status,
+.cost-tag,
+.method,
+.voice-available {
+  color: var(--tw-text-secondary) !important;
+  background: rgba(211, 221, 231, .14) !important;
+  border-color: rgba(255, 255, 255, .14) !important;
+}
+
+/* Player and drawers: the most visible G4 control layer. */
+.qq-player,
+.player,
+.player-drawer,
+.now-playing-panel {
+  background: rgba(12, 20, 30, .78) !important;
+  border-color: rgba(255, 255, 255, .18) !important;
+  color: var(--tw-text) !important;
+  box-shadow: 0 18px 52px rgba(2, 7, 13, .38), inset 0 1px 0 rgba(255, 255, 255, .10) !important;
+  -webkit-backdrop-filter: blur(24px) saturate(118%) !important;
+  backdrop-filter: blur(24px) saturate(118%) !important;
+}
+
+.player-button,
+.qq-controls button,
+.qq-actions button,
+.clip-more,
+.icon-button,
+.selected-source-remove,
+.now-playing-action,
+.now-playing-control {
+  color: var(--tw-text-secondary) !important;
+  background: transparent !important;
+  border-color: transparent !important;
+  transition: color 160ms var(--tw-ease), background 160ms var(--tw-ease), transform 160ms var(--tw-ease) !important;
+}
+
+.player-button:hover:not(:disabled),
+.qq-controls button:hover:not(:disabled),
+.qq-actions button:hover:not(:disabled),
+.clip-more:hover,
+.icon-button:hover,
+.selected-source-remove:hover,
+.now-playing-action:hover,
+.now-playing-control:hover {
+  color: #fff !important;
+  background: rgba(255, 255, 255, .11) !important;
+}
+
+.player-button.play,
+.qq-controls .play,
+.now-playing-main-control {
+  color: #18222d !important;
+  background: #e7ebef !important;
+  border-color: rgba(255, 255, 255, .78) !important;
+  box-shadow: 0 7px 20px rgba(3, 8, 15, .28), inset 0 1px 0 #fff !important;
+}
+
+.player-track strong,
+.player-track-copy strong,
+.player-track-copy small,
+.timeline span { color: var(--tw-text-secondary) !important; }
+.player-track strong { color: var(--tw-text) !important; }
+
+.glass-slider .lg-slider-track,
+.el-slider__runway { background: rgba(220, 228, 236, .22) !important; }
+.glass-slider .lg-slider-fill,
+.el-slider__bar { background: #dce4eb !important; }
+.glass-slider .lg-slider-thumb,
+.el-slider__button { background: #f1f4f7 !important; border-color: rgba(255, 255, 255, .55) !important; }
+
+.player-drawer,
+.now-playing-panel,
+.el-dialog,
+.el-drawer,
+.el-message-box,
+.el-popper,
+.glass-menu {
+  background: rgba(13, 22, 33, .92) !important;
+  border-color: rgba(255, 255, 255, .17) !important;
+  color: var(--tw-text) !important;
+  box-shadow: 0 24px 64px rgba(2, 7, 13, .45), inset 0 1px 0 rgba(255, 255, 255, .08) !important;
+  -webkit-backdrop-filter: blur(24px) saturate(115%) !important;
+  backdrop-filter: blur(24px) saturate(115%) !important;
+}
+
+.el-overlay { background: rgba(3, 8, 15, .62) !important; }
+.el-dialog__header,
+.player-drawer > header,
+.now-playing-header,
+.player-drawer > footer { border-color: rgba(255, 255, 255, .10) !important; }
+.el-dialog__title,
+.el-dialog h2,
+.el-dialog h3,
+.player-drawer h3,
+.now-playing-panel h1,
+.now-playing-panel h2,
+.now-playing-panel h3 { color: var(--tw-text) !important; }
+.el-dialog p,
+.el-dialog small,
+.player-drawer small,
+.now-playing-panel p,
+.now-playing-panel small { color: var(--tw-text-secondary) !important; }
+.glass-menu .glass-menu-item,
+.glass-menu a { color: var(--tw-text) !important; }
+.glass-menu .glass-menu-item:hover,
+.glass-menu .glass-menu-item:focus-visible { background: rgba(255, 255, 255, .10) !important; }
+.el-select-dropdown__item { color: var(--tw-text-secondary) !important; }
+.el-select-dropdown__item.is-selected { color: #fff !important; }
+.el-select-dropdown__item.is-hovering { background: rgba(255, 255, 255, .10) !important; }
+.el-message {
+  background: rgba(13, 22, 33, .94) !important;
+  border-color: var(--tw-border-strong) !important;
+  box-shadow: var(--tw-shadow-panel) !important;
+}
+.el-message__content,
+.el-message .el-message__icon { color: var(--tw-text-secondary) !important; }
+.el-textarea .el-input__count,
+.el-input .el-input__count-inner { background: transparent !important; color: var(--tw-text-muted) !important; }
+.idea-skeleton-line { background: rgba(193, 202, 212, .12) !important; }
+.glass-host .glass-menu.lg-surface,
+.glass-host.lg-surface:is(.el-dialog,.el-drawer,.el-message-box,.el-popper,.player-drawer,.now-playing-panel) {
+  background: rgba(13, 22, 33, .92) !important;
+  border-color: rgba(255, 255, 255, .17) !important;
+  box-shadow: 0 24px 64px rgba(2, 7, 13, .45), inset 0 1px 0 rgba(255, 255, 255, .08) !important;
+}
+
+/* Public pages and account views use the same environment without changing their grids. */
+.auth-art,
+.auth-form { background: transparent !important; border-color: var(--tw-border) !important; }
+.auth-copy h1 { color: var(--tw-text) !important; }
+.vinyl { background: repeating-radial-gradient(circle, #0d1723 0 7px, #1d2b3b 8px 9px) !important; box-shadow: -20px 30px 100px rgba(1, 6, 12, .55) !important; }
+.vinyl::after { background: #d9e0e6 !important; border-color: #121d2a !important; color: #18222d !important; }
+.share-state,
+.share-card { color: var(--tw-text) !important; }
+.share-cover { box-shadow: var(--tw-shadow-panel) !important; }
+.admin-page code,
+.catalog-path { color: #c7d8e8 !important; }
+.admin-hero-mark { background: rgba(36, 53, 72, .72) !important; border-color: var(--tw-border-strong) !important; color: var(--tw-text) !important; }
+.admin-page .method.get,
+.admin-page .method.post,
+.admin-page .method.delete,
+.admin-page .method.put,
+.admin-page .method.patch,
+.admin-page .cost-tag { background: rgba(211, 221, 231, .14) !important; color: var(--tw-text-secondary) !important; }
+
+/* Keep focus visible and respect the system's reduced-motion preference. */
+.unified-shell :is(button, a, input, textarea, select, summary):focus-visible,
+.auth-page :is(button, a, input, textarea, select):focus-visible,
+.share-page :is(button, a, input, textarea, select):focus-visible,
+.admin-page :is(button, a, input, textarea, select, summary):focus-visible {
+  outline: 2px solid rgba(224, 232, 240, .72) !important;
+  outline-offset: 3px !important;
+}
+
+@supports not (backdrop-filter: blur(1px)) {
+  .workbench-topbar,
+  .composer-column,
+  .library-panel,
+  .profile-card,
+  .records,
+  .track-card,
+  .balance-card,
+  .share-card,
+  .qq-player,
+  .player,
+  .player-drawer,
+  .now-playing-panel,
+  .el-dialog,
+  .el-drawer,
+  .el-message-box,
+  .el-popper,
+  .glass-menu,
+  .glass-host .lg-surface,
+  .glass-host.lg-surface { background: rgba(13, 22, 33, .96) !important; }
+}
+
+.glass-host[data-lg-state="fallback"] .lg-surface { background: rgba(23, 35, 49, .88) !important; }
+.glass-host[data-lg-state="fallback"] .glass-menu.lg-surface { background: rgba(13, 22, 33, .96) !important; }
+
+@media (prefers-reduced-motion: reduce) {
+  .unified-shell *,
+  .unified-shell *::before,
+  .unified-shell *::after,
+  .auth-page *,
+  .share-page *,
+  .admin-page *,
+  .el-overlay *,
+  .el-message-box *,
+  .glass-menu * {
+    animation-duration: .01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: .01ms !important;
+    scroll-behavior: auto !important;
+  }
+}
+
+@media (forced-colors: active) {
+  .glass-host .lg-surface,
+  .glass-host.lg-surface,
+  .glass-host .glass-menu.lg-surface { background: Canvas !important; color: CanvasText !important; border-color: ButtonText !important; }
+  .glass-slider .lg-slider-fill,
+  .glass-switch[data-checked] .lg-switch-track { background: Highlight !important; }
+}
+}

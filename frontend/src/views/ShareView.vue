@@ -1,0 +1,6 @@
+<script setup lang="ts">
+import { onMounted, ref } from 'vue'; import { useRoute } from 'vue-router'; import { api } from '../api'; import type { SharedTrack } from '../types'; import { ElMessage } from 'element-plus'
+const route=useRoute(), track=ref<SharedTrack|null>(null), loading=ref(true), error=ref('')
+onMounted(async()=>{try{track.value=await api.sharedTrack(String(route.params.token))}catch{error.value='分享链接不存在或已过期';ElMessage.error(error.value)}finally{loading.value=false}})
+</script>
+<template><main class="share-page"><div v-if="loading" class="share-state">正在加载分享作品…</div><div v-else-if="error" class="share-state"><strong>{{error}}</strong><router-link to="/create">返回声序</router-link></div><article v-else-if="track" class="share-card"><div class="share-cover"><img v-if="track.coverUrl" :src="track.coverUrl" alt=""/><span v-else>♪</span></div><span class="eyebrow">SHARED TRACK</span><h1>{{track.title}}</h1><p class="share-author">{{track.username}} · {{track.styleTags||'AI 音乐作品'}}</p><audio :src="track.audioUrl" controls preload="metadata" aria-label="试听分享作品"></audio><p class="muted">此链接仅展示公开作品信息，有效期 7 天。</p><router-link class="dark-button share-home" to="/create">进入声序</router-link></article></main></template>
