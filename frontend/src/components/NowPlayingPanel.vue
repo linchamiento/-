@@ -30,7 +30,6 @@ import ShareDialog from './ShareDialog.vue'
 import TrackInfoPanel from './TrackInfoPanel.vue'
 
 type LyricLine = { text: string; start?: number; section?: boolean }
-type MoreAction = 'share' | 'comments' | 'info' | 'remove' | 'clear'
 
 const props = defineProps<{ open: boolean }>()
 const emit = defineEmits<{ close: [] }>()

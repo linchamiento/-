@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { ref, watch } from 'vue'; import { Close, CopyDocument, Share } from '@element-plus/icons-vue'; import { ElMessage } from 'element-plus'; import { api } from '../api'; import type { Track } from '../types'
+import { ref, watch } from 'vue'; import { CopyDocument, Share } from '@element-plus/icons-vue'; import { ElMessage } from 'element-plus'; import { api } from '../api'; import type { Track } from '../types'
 const props=defineProps<{open:boolean;track:Track|null}>(); const emit=defineEmits<{close:[]}>(); const link=ref(''),loading=ref(false)
 async function create(){if(!props.track)return;loading.value=true;try{const result=await api.createShare(props.track.id);link.value=`${window.location.origin}/share/${result.token}`;await navigator.clipboard?.writeText(link.value);ElMessage.success('分享链接已复制')}catch{}finally{loading.value=false}}
 async function copy(){if(link.value){await navigator.clipboard?.writeText(link.value);ElMessage.success('链接已复制')}}

@@ -3,8 +3,8 @@ import com.fasterxml.jackson.databind.*; import org.springframework.beans.factor
 import java.math.BigDecimal; import java.util.*;
 @Service
 public class SunoApiService {
- private final RestClient client; private final String key; private final String model; private final ObjectMapper mapper;
- public SunoApiService(RestClient.Builder builder,ObjectMapper mapper,@Value("${app.suno.base-url}") String base,@Value("${app.suno.api-key}") String key,@Value("${app.suno.model}") String model){this.client=builder.baseUrl(base).build();this.mapper=mapper;this.key=key;this.model=model;}
+ private final RestClient client; private final String key; private final String model;
+ public SunoApiService(RestClient.Builder builder,@Value("${app.suno.base-url}") String base,@Value("${app.suno.api-key}") String key,@Value("${app.suno.model}") String model){this.client=builder.baseUrl(base).build();this.key=key;this.model=model;}
  public boolean configured(){return key!=null&&!key.isBlank();}
  public List<ProviderSong> create(String prompt,String style,String mood,String vocal,String language,String lyricsMode,String lyrics,String title,String negativeTags,String requestedModel,String sourceClipId,String sourceType,String sourceAudioUrl,String sourceTitle,Integer weirdness,Integer styleWeight,Integer duration,Integer variety,BigDecimal audioWeight,Boolean maxMode,String voiceId,String soundType,Integer soundBpm,String soundKey,Boolean soundLoop){
   Map<String,Object> body=new LinkedHashMap<>();body.put("model",requestedModel==null||requestedModel.isBlank()?model:requestedModel);body.put("wait_completion",false);boolean instrumental="INSTRUMENTAL".equals(vocal);body.put("instrumental",instrumental);if(Boolean.TRUE.equals(maxMode))body.put("max_mode",true);

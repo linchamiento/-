@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { computed } from 'vue'
-import { Close, Delete, VideoPlay, ArrowUp, ArrowDown } from '@element-plus/icons-vue'
+import { Close, Delete, ArrowUp, ArrowDown } from '@element-plus/icons-vue'
 import { usePlayerStore } from '../store/player'
 const props = defineProps<{ open:boolean }>(); const emit = defineEmits<{ close:[] }>(); const player=usePlayerStore(); let dragIndex=-1
 const queue = computed(() => player.queue)

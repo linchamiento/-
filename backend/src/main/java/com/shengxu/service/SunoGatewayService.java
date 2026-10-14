@@ -54,7 +54,7 @@ public class SunoGatewayService {
     }
 
     public ResponseEntity<byte[]> execute(String method, String path, Map<String, String> query, JsonNode body) {
-        SunoOperationCatalog.Rule rule = catalog.resolve(method, path);
+        catalog.resolve(method, path);
         return send(method, path, query, body == null ? null : body.toString(), MediaType.APPLICATION_JSON);
     }
 
