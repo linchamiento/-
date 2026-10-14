@@ -118,7 +118,8 @@ function createScene(root: HTMLElement): Scene {
       classes(toolbar, 'lg-toolbar')
       toolbar.setAttribute('role', 'toolbar')
       if (!toolbar.hasAttribute('aria-label')) toolbar.setAttribute('aria-label', toolbar.matches('.composer-actions') ? '创作工具' : '播放工具')
-      register(toolbar, { radius: 'capsule', interactive: true }, 'toolbar')
+      // Creation tools are separate buttons rather than one shared optical strip.
+      if (!toolbar.matches('.composer-actions')) register(toolbar, { radius: 'capsule', interactive: true }, 'toolbar')
       if (!toolbarKeys.has(toolbar)) {
         const keys = (event: KeyboardEvent) => {
           if (!['ArrowLeft','ArrowRight','Home','End'].includes(event.key)) return
@@ -177,6 +178,14 @@ export function installGlass(app: App) {
   let resize: ResizeObserver | undefined
   let frame = 0
   let active = false
+  const scrollTimers = new Map<HTMLElement, number>()
+  const onScroll = (event: Event) => {
+    const el = event.target
+    if (!(el instanceof HTMLElement) || !el.matches('.composer-column,.clip-list,.library-page')) return
+    el.dataset.scrollActive = 'true'
+    clearTimeout(scrollTimers.get(el))
+    scrollTimers.set(el, window.setTimeout(() => { delete el.dataset.scrollActive; scrollTimers.delete(el) }, 800))
+  }
   const sync = () => {
     frame = 0
     const roots = [...document.querySelectorAll<HTMLElement>(sceneSelector)].filter(visible)
@@ -189,6 +198,7 @@ export function installGlass(app: App) {
   const schedule = () => { if (active && !frame) frame = requestAnimationFrame(sync) }
   const start = () => {
     active = true
+    document.addEventListener('scroll', onScroll, true)
     observer = new MutationObserver(records => {
       // SDK's own SVG/glass layers must never trigger a rediscovery loop.
       if (records.some(record => {
@@ -206,6 +216,8 @@ export function installGlass(app: App) {
   }
   const stop = () => {
     active = false; cancelAnimationFrame(frame); frame = 0
+    document.removeEventListener('scroll', onScroll, true)
+    scrollTimers.forEach(timer => clearTimeout(timer)); scrollTimers.clear()
     observer?.disconnect(); resize?.disconnect()
     window.removeEventListener('resize', schedule); document.removeEventListener('click', schedule, true)
     scenes.forEach(scene => scene.dispose()); scenes.clear()
