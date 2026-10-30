@@ -136,6 +136,22 @@ function createScene(root: HTMLElement): Scene {
     }
     for (const el of root.querySelectorAll<HTMLElement>(controlsSelector)) {
       if (!owns(root, el) || !visible(el) || el.closest('[data-lg-manual]')) continue
+      // Authentication submits use the page's own contrast-safe styling. They
+      // must not become SDK surfaces because the SDK's disabled opacity and
+      // clip-path would override the login action's visual state.
+      if (el.matches('.auth-submit')) {
+        el.classList.remove('lg-button', 'lg-surface')
+        delete el.dataset.lgKind
+        delete el.dataset.lgOptics
+        delete el.dataset.lgContainer
+        delete el.dataset.lgContainerRadius
+        delete el.dataset.glassInteractive
+        delete el.dataset.glassAppearance
+        el.style.removeProperty('clip-path')
+        el.style.removeProperty('border-radius')
+        el.style.removeProperty('--lg-radius')
+        continue
+      }
       if (el.matches('.advanced-section-toggle,.voice-item-copy,.queue-title,.source-picker-card,.voice-choice-card,.upload-source-option,.queue-play,.clip-main,.workbench-brand,.el-input-number__increase,.el-input-number__decrease,.el-input__clear,.el-input__password')) {
         classes(el, 'glass-content-action'); continue
       }

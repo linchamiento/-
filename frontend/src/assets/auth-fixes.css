@@ -1,0 +1,48 @@
+/* Keep authentication actions readable when global glass themes are enabled. */
+.auth-page .auth-submit.el-button {
+  width: 100% !important;
+  height: 48px !important;
+  margin-top: 8px !important;
+  padding: 0 20px !important;
+  border: 1px solid rgba(255, 255, 255, .8) !important;
+  border-radius: 10px !important;
+  background: #e7ebef !important;
+  color: #17212d !important;
+  font-weight: 600 !important;
+  box-shadow: 0 7px 20px rgba(3, 8, 15, .28), inset 0 1px 0 #fff !important;
+}
+
+.auth-page .auth-submit.el-button:hover:not(:disabled) {
+  background: #f4f6f8 !important;
+  border-color: #fff !important;
+  color: #101923 !important;
+}
+
+.auth-page .auth-submit.el-button:disabled,
+.auth-page .auth-submit.el-button.is-disabled,
+.auth-page button.auth-submit.el-button[disabled] {
+  background: rgba(231, 235, 239, .82) !important;
+  border-color: rgba(255, 255, 255, .58) !important;
+  color: #344457 !important;
+  opacity: 1 !important;
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, .65) !important;
+}
+
+body:has(#app) .auth-page .auth-submit.el-button:disabled,
+body:has(#app) .auth-page .auth-submit.el-button.is-disabled {
+  opacity: 1 !important;
+  filter: none !important;
+}
+
+.auth-page .recent-accounts { margin: -16px 0 24px; }
+.auth-page .recent-accounts > span { display: block; margin-bottom: 8px; color: rgba(237, 240, 244, .72); font-size: 11px; }
+.auth-page .recent-accounts > div { display: grid; gap: 7px; }
+.auth-page .recent-account-row { display: flex; align-items: stretch; gap: 6px; }
+.auth-page .recent-account { display: flex; min-height: 42px; flex: 1; flex-direction: column; align-items: flex-start; justify-content: center; gap: 2px; width: 100%; padding: 6px 12px; border: 1px solid rgba(255, 255, 255, .13); border-radius: 10px; background: rgba(16, 24, 34, .52); color: #edf0f4; text-align: left; }
+.auth-page .recent-account:hover { border-color: rgba(255, 255, 255, .3); background: rgba(37, 51, 67, .72); }
+.auth-page .recent-account strong { font-size: 12px; font-weight: 600; }
+.auth-page .recent-account small { color: rgba(237, 240, 244, .68); font-size: 11px; }
+.auth-page .remove-saved-account { width: 42px; flex: 0 0 42px; border: 1px solid rgba(255, 255, 255, .13); border-radius: 10px; background: rgba(16, 24, 34, .52); color: rgba(237, 240, 244, .72); font-size: 20px; line-height: 1; }
+.auth-page .remove-saved-account:hover { border-color: rgba(255, 170, 170, .45); background: rgba(91, 41, 50, .6); color: #fff; }
+.auth-page .remember-password { display: flex; align-items: center; gap: 7px; margin: 14px 0 2px; color: rgba(237, 240, 244, .72); font-size: 11px; }
+.auth-page .remember-password input { width: 14px; height: 14px; accent-color: #e7ebef; }

@@ -1,0 +1,281 @@
+/* Final visual layer for the creation column only. */
+body:has(#app) .ui-glass .composer-column {
+  --create-glass-surface: rgba(17, 27, 40, .66);
+  --create-glass-raised: rgba(30, 43, 59, .68);
+  --create-glass-input: rgba(9, 16, 25, .76);
+  --create-glass-border: rgba(220, 232, 246, .16);
+  --create-glass-border-strong: rgba(228, 237, 248, .30);
+  --create-glass-text: #edf2f8;
+  --create-glass-muted: #b8c4d2;
+  --create-glass-accent: #c8d5e4;
+  color: var(--create-glass-text) !important;
+}
+
+body:has(#app) .ui-glass .composer-column .creation-tabs {
+  border-color: var(--create-glass-border) !important;
+}
+
+body:has(#app) .ui-glass .composer-column .creation-tabs button {
+  color: var(--create-glass-muted) !important;
+  border-bottom-color: transparent !important;
+  transition: color .18s ease, border-color .18s ease, background .18s ease !important;
+}
+
+body:has(#app) .ui-glass .composer-column .creation-tabs button:hover:not(:disabled),
+body:has(#app) .ui-glass .composer-column .creation-tabs button.active {
+  color: #fff !important;
+  border-bottom-color: var(--create-glass-accent) !important;
+}
+
+body:has(#app) .ui-glass .composer-column .creation-tabs button:disabled {
+  opacity: .48 !important;
+  cursor: not-allowed !important;
+}
+
+body:has(#app) .ui-glass .composer-column .studio-mode-toggle {
+  border: 1px solid var(--create-glass-border) !important;
+  background: rgba(9, 16, 25, .42) !important;
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, .06), 0 8px 20px rgba(0, 0, 0, .12) !important;
+  -webkit-backdrop-filter: blur(16px) saturate(118%) !important;
+  backdrop-filter: blur(16px) saturate(118%) !important;
+}
+
+body:has(#app) .ui-glass .composer-column .studio-mode-toggle button {
+  color: var(--create-glass-muted) !important;
+  background: transparent !important;
+  border-color: transparent !important;
+}
+
+body:has(#app) .ui-glass .composer-column .studio-mode-toggle button:hover:not(:disabled) {
+  color: #fff !important;
+  background: rgba(255, 255, 255, .08) !important;
+}
+
+body:has(#app) .ui-glass .composer-column .studio-mode-toggle button.active {
+  color: #14202d !important;
+  background: linear-gradient(180deg, #f0f3f7, #dce4ed) !important;
+  border-color: rgba(255, 255, 255, .78) !important;
+  box-shadow: inset 0 1px 0 #fff, 0 3px 10px rgba(0, 0, 0, .2) !important;
+}
+
+body:has(#app) .ui-glass .composer-column .model-select .el-select__wrapper {
+  background: var(--create-glass-raised) !important;
+  border: 1px solid var(--create-glass-border) !important;
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, .07) !important;
+}
+
+body:has(#app) .ui-glass .composer-column .composer-actions > button,
+body:has(#app) .ui-glass .composer-column .prompt-card-footer > button,
+body:has(#app) .ui-glass .composer-column .mini-tool,
+body:has(#app) .ui-glass .composer-column .lyrics-tool-button {
+  color: var(--create-glass-text) !important;
+  background: rgba(34, 49, 67, .64) !important;
+  border: 1px solid var(--create-glass-border) !important;
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, .07), 0 3px 10px rgba(0, 0, 0, .12) !important;
+}
+
+body:has(#app) .ui-glass .composer-column .composer-actions > button:hover:not(:disabled),
+body:has(#app) .ui-glass .composer-column .prompt-card-footer > button:hover:not(:disabled),
+body:has(#app) .ui-glass .composer-column .mini-tool:hover:not(:disabled),
+body:has(#app) .ui-glass .composer-column .lyrics-tool-button:hover:not(:disabled),
+body:has(#app) .ui-glass .composer-column .lyrics-tool-button.active {
+  color: #fff !important;
+  background: rgba(74, 92, 114, .78) !important;
+  border-color: var(--create-glass-border-strong) !important;
+}
+
+body:has(#app) .ui-glass .composer-column :is(.composer-actions > button, .prompt-card-footer > button, .mini-tool, .lyrics-tool-button):disabled {
+  opacity: .46 !important;
+  cursor: not-allowed !important;
+}
+
+body:has(#app) .ui-glass .composer-column .field-card,
+body:has(#app) .ui-glass .composer-column .advanced-only > .advanced-section,
+body:has(#app) .ui-glass .composer-column .advanced-only > .advanced-title-section,
+body:has(#app) .ui-glass .composer-column .advanced-param-block,
+body:has(#app) .ui-glass .composer-column .advanced-range-row,
+body:has(#app) .ui-glass .composer-column .sound-card,
+body:has(#app) .ui-glass .composer-column .style-card {
+  color: var(--create-glass-text) !important;
+  border-color: var(--create-glass-border) !important;
+  background: linear-gradient(145deg, rgba(33, 47, 64, .60), rgba(13, 21, 32, .58)) !important;
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, .07), 0 8px 22px rgba(0, 0, 0, .10) !important;
+  -webkit-backdrop-filter: blur(16px) saturate(115%) !important;
+  backdrop-filter: blur(16px) saturate(115%) !important;
+}
+
+body:has(#app) .ui-glass .composer-column :is(.field-header strong, .advanced-section-title strong, .advanced-param-heading, .advanced-range-label, .advanced-max-label, .sound-card .field-header strong, .style-card .field-header strong) {
+  color: var(--create-glass-text) !important;
+}
+
+body:has(#app) .ui-glass .composer-column :is(.field-header > span, .advanced-section-title small, .advanced-section-status, .sound-card label, .style-card small) {
+  color: var(--create-glass-muted) !important;
+}
+
+body:has(#app) .ui-glass .composer-column .advanced-only > .advanced-section > .advanced-section-toggle,
+body:has(#app) .ui-glass .composer-column .advanced-only > .advanced-title-section .field-header {
+  color: var(--create-glass-text) !important;
+  background: transparent !important;
+  border-color: transparent !important;
+}
+
+body:has(#app) .ui-glass .composer-column .advanced-only > .advanced-section > .advanced-section-toggle:hover {
+  background: rgba(255, 255, 255, .045) !important;
+}
+
+body:has(#app) .ui-glass .composer-column .advanced-only .advanced-section-content,
+body:has(#app) .ui-glass .composer-column .advanced-only .advanced-params-content {
+  color: var(--create-glass-text) !important;
+  border-color: var(--create-glass-border) !important;
+  background: rgba(8, 14, 22, .28) !important;
+}
+
+body:has(#app) .ui-glass .composer-column :is(.el-input__wrapper, .el-textarea__inner, .el-input-number .el-input__wrapper, .advanced-title-section .el-input__wrapper, .advanced-duration-input .el-input__wrapper, .advanced-style-input-row .el-input__wrapper, .advanced-negative-editor .el-textarea__inner) {
+  color: var(--create-glass-text) !important;
+  border-color: rgba(222, 233, 246, .18) !important;
+  background: var(--create-glass-input) !important;
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, .045) !important;
+  -webkit-backdrop-filter: blur(12px) !important;
+  backdrop-filter: blur(12px) !important;
+}
+
+body:has(#app) .ui-glass .composer-column :is(.el-input__wrapper:hover, .el-input__wrapper.is-focus, .el-textarea__inner:hover, .el-textarea__inner:focus, .advanced-style-input-row .el-input__wrapper:focus-within) {
+  border-color: rgba(224, 235, 248, .38) !important;
+  background: rgba(9, 16, 25, .9) !important;
+  box-shadow: 0 0 0 3px rgba(215, 225, 235, .09), inset 0 1px 0 rgba(255, 255, 255, .06) !important;
+}
+
+body:has(#app) .ui-glass .composer-column :is(.el-input__inner, .el-textarea__inner, .el-select__selected-item, .advanced-title-section .el-input__inner, .advanced-style-input-row .el-input__inner) {
+  color: var(--create-glass-text) !important;
+}
+
+body:has(#app) .ui-glass .composer-column :is(.el-input__inner, .el-textarea__inner)::placeholder {
+  color: rgba(190, 202, 216, .68) !important;
+}
+
+body:has(#app) .ui-glass .composer-column .advanced-negative-editor .el-input__count {
+  color: var(--create-glass-muted) !important;
+  background: transparent !important;
+}
+
+body:has(#app) .ui-glass .composer-column .advanced-choice-row button,
+body:has(#app) .ui-glass .composer-column .advanced-chips button,
+body:has(#app) .ui-glass .composer-column .style-card .chips button,
+body:has(#app) .ui-glass .composer-column .reference-chips button {
+  color: var(--create-glass-muted) !important;
+  border-color: var(--create-glass-border) !important;
+  background: rgba(9, 16, 25, .48) !important;
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, .045) !important;
+}
+
+body:has(#app) .ui-glass .composer-column .advanced-choice-row button:hover,
+body:has(#app) .ui-glass .composer-column .advanced-chips button:hover,
+body:has(#app) .ui-glass .composer-column .style-card .chips button:hover {
+  color: #fff !important;
+  border-color: var(--create-glass-border-strong) !important;
+  background: rgba(63, 80, 102, .68) !important;
+}
+
+body:has(#app) .ui-glass .composer-column .advanced-choice-row button.active,
+body:has(#app) .ui-glass .composer-column .advanced-chips button.active,
+body:has(#app) .ui-glass .composer-column .style-card .chips button.active,
+body:has(#app) .ui-glass .composer-column .reference-chips button.active {
+  color: #f7f9fc !important;
+  border-color: rgba(225, 236, 248, .36) !important;
+  background: rgba(137, 158, 184, .28) !important;
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, .12), 0 3px 10px rgba(0, 0, 0, .16) !important;
+}
+
+body:has(#app) .ui-glass .composer-column .advanced-range-row .el-slider__runway {
+  background: rgba(220, 231, 244, .20) !important;
+}
+
+body:has(#app) .ui-glass .composer-column .advanced-range-row .el-slider__bar {
+  background: #b7c8dc !important;
+}
+
+body:has(#app) .ui-glass .composer-column .advanced-range-row .el-slider__button {
+  border-color: #d4e0ee !important;
+  background: #172434 !important;
+  box-shadow: 0 0 0 3px rgba(205, 220, 237, .12) !important;
+}
+
+body:has(#app) .ui-glass .composer-column .advanced-range-row output {
+  color: var(--create-glass-text) !important;
+}
+
+body:has(#app) .ui-glass .composer-column .advanced-max-label em {
+  color: #f1d2b9 !important;
+  background: rgba(143, 89, 53, .32) !important;
+}
+
+body:has(#app) .ui-glass .composer-column .advanced-max-row .el-switch {
+  --el-switch-on-color: #91a7c2;
+  --el-switch-off-color: #47576a;
+}
+
+body:has(#app) .ui-glass .composer-column .lyrics-tool-popover {
+  border-color: var(--create-glass-border-strong) !important;
+  background: rgba(12, 20, 30, .96) !important;
+  color: var(--create-glass-text) !important;
+  box-shadow: 0 16px 36px rgba(0, 0, 0, .35) !important;
+  -webkit-backdrop-filter: blur(18px) !important;
+  backdrop-filter: blur(18px) !important;
+}
+
+body:has(#app) .ui-glass .composer-column .lyrics-tool-popover > button:hover,
+body:has(#app) .ui-glass .composer-column .lyrics-tool-popover > button.active {
+  color: #fff !important;
+  border-color: var(--create-glass-border) !important;
+  background: rgba(117, 139, 165, .24) !important;
+}
+
+body:has(#app) .ui-glass .composer-column .sound-card .el-radio-button__inner {
+  color: var(--create-glass-muted) !important;
+  border-color: var(--create-glass-border) !important;
+  background: rgba(9, 16, 25, .54) !important;
+  box-shadow: none !important;
+}
+
+body:has(#app) .ui-glass .composer-column .sound-card .el-radio-button.is-active .el-radio-button__inner {
+  color: #fff !important;
+  border-color: var(--create-glass-border-strong) !important;
+  background: rgba(137, 158, 184, .28) !important;
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, .10) !important;
+}
+
+body:has(#app) .ui-glass .composer-column .generate-footer {
+  background: linear-gradient(180deg, transparent, rgba(9, 15, 23, .92) 46%) !important;
+  -webkit-backdrop-filter: blur(10px) !important;
+  backdrop-filter: blur(10px) !important;
+}
+
+body:has(#app) .ui-glass .composer-column .generate-footer .generate-button {
+  color: #14202d !important;
+  border: 1px solid rgba(255, 255, 255, .78) !important;
+  background: linear-gradient(180deg, #f1f4f7, #dce4ed) !important;
+  box-shadow: inset 0 1px 0 #fff, 0 7px 20px rgba(0, 0, 0, .28) !important;
+}
+
+body:has(#app) .ui-glass .composer-column .generate-footer .generate-button small {
+  color: #405166 !important;
+}
+
+body:has(#app) .ui-glass .composer-column .generate-footer .generate-button:hover:not(:disabled) {
+  color: #101923 !important;
+  border-color: #fff !important;
+  background: linear-gradient(180deg, #fff, #e8edf3) !important;
+}
+
+body:has(#app) .ui-glass .composer-column :is(button, a, input, textarea):focus-visible {
+  outline: 2px solid rgba(225, 236, 248, .86) !important;
+  outline-offset: 3px !important;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  body:has(#app) .ui-glass .composer-column * {
+    transition-duration: .01ms !important;
+    animation-duration: .01ms !important;
+    animation-iteration-count: 1 !important;
+  }
+}

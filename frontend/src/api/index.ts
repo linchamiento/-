@@ -1,6 +1,7 @@
 import http from './http'; import type {MusicTask,PageData,Track,User,EntityId,TrackComment,TrackShare,SharedTrack} from '../types'
 export { sunoApi } from './suno'
 export const api={
+ recentAccounts:()=>http.get<any,Array<{username:string;email:string}>>('/auth/recent-accounts'),
  register:(v:{username:string;email:string;password:string})=>http.post<any,User>('/auth/register',v), login:(v:{email:string;password:string})=>http.post<any,User>('/auth/login',v), logout:()=>http.post('/auth/logout'), me:()=>http.get<any,User>('/users/me'),
  updateMe:(username:string)=>http.patch<any,User>('/users/me',{username}), uploadAvatar:(file:File)=>{const f=new FormData();f.append('file',file);return http.post<any,{avatarUrl:string}>('/users/me/avatar',f)},
  templates:()=>http.get<any,Array<Record<string,string>>>('/templates'), createTask:(v:unknown,key:string)=>http.post<any,MusicTask>('/music-tasks',v,{headers:{'Idempotency-Key':key}}), task:(id:EntityId)=>http.get<any,MusicTask>(`/music-tasks/${id}`), tasks:()=>http.get<any,PageData<MusicTask>>('/music-tasks'),

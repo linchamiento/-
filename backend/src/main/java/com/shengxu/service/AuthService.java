@@ -3,6 +3,7 @@ import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper; import
 import com.shengxu.dto.AuthDtos.*; import com.shengxu.entity.*; import com.shengxu.mapper.*; import com.shengxu.utils.*;
 import jakarta.servlet.http.*; import org.springframework.beans.factory.annotation.Value; import org.springframework.data.redis.core.StringRedisTemplate; import org.springframework.http.*; import org.springframework.security.crypto.password.PasswordEncoder; import org.springframework.stereotype.Service; import org.springframework.transaction.annotation.Transactional;
 import java.time.Duration;
+import java.util.List;
 @Service
 public class AuthService {
  private final UserMapper users; private final UserCreditMapper credits; private final CreditRecordMapper records; private final PasswordEncoder encoder; private final JwtUtils jwt; private final StringRedisTemplate redis; private final boolean secure;
@@ -16,6 +17,7 @@ public class AuthService {
   issue(u.getId(),response); return new UserView(u.getId(),u.getUsername(),u.getEmail(),null,100);
  }
  public UserView login(Login in,HttpServletResponse response){User u=users.selectOne(new LambdaQueryWrapper<User>().eq(User::getEmail,in.email().trim().toLowerCase()));if(u==null||!encoder.matches(in.password(),u.getPasswordHash()))throw new BusinessException(HttpStatus.UNAUTHORIZED,"邮箱或密码错误");issue(u.getId(),response);return view(u);}
+ public List<RecentAccount> recentAccounts(){return users.selectList(new LambdaQueryWrapper<User>().select(User::getUsername,User::getEmail).orderByDesc(User::getCreatedAt).last("LIMIT 3")).stream().map(u->new RecentAccount(u.getUsername(),u.getEmail())).toList();}
  public void logout(HttpServletRequest req,HttpServletResponse res){if(req.getCookies()!=null)for(var c:req.getCookies())if("SHENGXU_TOKEN".equals(c.getName()))try{redis.delete("session:"+jwt.parse(c.getValue()).getId());}catch(Exception ignored){} ResponseCookie cookie=ResponseCookie.from("SHENGXU_TOKEN","").httpOnly(true).secure(secure).sameSite("Lax").path("/").maxAge(0).build();res.addHeader(HttpHeaders.SET_COOKIE,cookie.toString());}
  public UserView me(Long id){User u=users.selectById(id);if(u==null)throw new BusinessException(HttpStatus.UNAUTHORIZED,"登录状态已失效");return view(u);}
  private UserView view(User u){UserCredit c=credits.selectOne(new LambdaQueryWrapper<UserCredit>().eq(UserCredit::getUserId,u.getId()));return new UserView(u.getId(),u.getUsername(),u.getEmail(),u.getAvatarUrl(),c==null?0:c.getBalance());}
