@@ -136,10 +136,9 @@ function createScene(root: HTMLElement): Scene {
     }
     for (const el of root.querySelectorAll<HTMLElement>(controlsSelector)) {
       if (!owns(root, el) || !visible(el) || el.closest('[data-lg-manual]')) continue
-      // Authentication submits use the page's own contrast-safe styling. They
-      // must not become SDK surfaces because the SDK's disabled opacity and
-      // clip-path would override the login action's visual state.
-      if (el.matches('.auth-submit')) {
+      // Auth actions and account cards own their layout and contrast. The SDK's
+      // compact capsule geometry would clip account names and email addresses.
+      if (el.matches('.auth-submit,.auth-mode-switch,.recent-account,.remove-saved-account')) {
         el.classList.remove('lg-button', 'lg-surface')
         delete el.dataset.lgKind
         delete el.dataset.lgOptics
